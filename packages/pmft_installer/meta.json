@@ -1,7 +1,8 @@
 {
     "name": "pmft_installer",
     "type": "script",
-    "version": 0,
-    "filename": "pmft",
-    "requires": []
+    "version": 1,
+    "requires": [],
+    "author": "Thijs van Straaten",
+    "filename": "pmft"
 }

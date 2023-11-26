@@ -1,0 +1,36 @@
+import requests
+import zipfile
+import os
+import json
+import sys
+
+URL = "http://pmft.pythonanywhere.com"
+
+
+def pack(package: str):
+    with open(os.path.join(package, "meta.json")) as f:
+        meta = json.load(f)
+
+    filename = meta.get("filename", f"{meta['name']}-{meta['version']}")
+
+    with zipfile.ZipFile(package + ".zip", "w") as zf:
+        zf.writestr("meta.json", json.dumps(meta))
+        zf.write(os.path.join(package, filename), filename)
+
+
+def upload(package: str):
+    if not os.path.exists(f"{package}.zip"):
+        pack()
+    with open(f"{package}.zip", "rb") as f:
+        requests.post(f"{URL}/packages/{package}", f.read())
+
+
+if __name__ == "__main__":
+    match sys.argv:
+        case [prog]:
+            print("usage:")
+            print(
+                f"  {prog} <package>  - uploads the given package meta.json and the file to the server after packaging it."
+            )
+        case [prog, package]:
+            upload(package)

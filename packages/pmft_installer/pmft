@@ -1,10 +1,13 @@
 import requests
 import os
 
+URL = "http://pmft.pythonanywhere.com"
+
+
 print("bootstrapping... ", end="")
 
 try:
-    downloaded = requests.get("http://127.0.0.1:5000/packages/pmft/get").content
+    downloaded = requests.get(f"{URL}/packages/pmft/get").content
 except Exception as e:
     print(f"Err: could not download pmft.\n{e}\naborting.")
     exit(1)

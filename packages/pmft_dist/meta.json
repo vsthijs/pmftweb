@@ -1,5 +1,5 @@
 {
-    "name": "pmft_installer",
+    "name": "pmft_dist",
     "type": "script",
     "version": 1,
     "requires": [],
