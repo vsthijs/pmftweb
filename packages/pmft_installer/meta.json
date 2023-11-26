@@ -1,0 +1,7 @@
+{
+    "name": "pmft_installer",
+    "type": "script",
+    "version": 0,
+    "filename": "pmft",
+    "requires": []
+}

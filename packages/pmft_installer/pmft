@@ -1,0 +1,41 @@
+import requests
+import os
+
+print("bootstrapping... ", end="")
+
+try:
+    downloaded = requests.get("http://127.0.0.1:5000/packages/pmft/get").content
+except Exception as e:
+    print(f"Err: could not download pmft.\n{e}\naborting.")
+    exit(1)
+
+try:
+    os.rename(__file__, f"{__file__}.bak")
+except Exception:
+    print("Err: could not back-up.\naborting.")
+    exit(1)
+
+try:
+    with open(__file__, "wb") as f:
+        f.write(downloaded)
+except Exception as e:
+    print(f"Err: could not install pmft:\n{e}\naborting.")
+    exit(1)
+
+print("Ok")
+print("restart")
+
+with open(__file__) as f:
+    prog = f.read()
+
+try:
+    exec(prog)
+    print("successful bootstrap. removing backup")
+    os.remove(f"{__file__}.bak")
+    exit(0)
+except Exception as e:
+    print("error occured. replacing backup")
+    with open(f"{__file__}.bak") as fa:
+        with open(f"{__file__}", "w") as fb:
+            fb.write(fa.read())
+    raise e
